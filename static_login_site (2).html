@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Static Website with Login, Navigation, Checkboxes</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+    header { background: #333; color: #fff; padding: 10px; text-align: center; }
+    nav { background: #444; display: flex; justify-content: center; flex-wrap: wrap; }
+    nav button { background: none; border: none; color: white; padding: 14px 20px; cursor: pointer; }
+    nav button:hover { background: #666; }
+    .container { padding: 20px; }
+    .hidden { display: none; }
+    /* Login styles */
+    #login-page { display: flex; height: 100vh; justify-content: center; align-items: center; background: #222; color: #fff; }
+    #login-box { background: #333; padding: 30px; border-radius: 10px; text-align: center; }
+    #login-box input { display: block; margin: 10px auto; padding: 10px; width: 80%; border: none; border-radius: 5px; }
+    #login-box button { padding: 10px 20px; margin-top: 10px; cursor: pointer; border: none; border-radius: 5px; background: #28a745; color: white; }
+    #login-box button:hover { background: #218838; }
+    /* Popup modal */
+    #popup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); display: none; justify-content: center; align-items: center; }
+    #popup-content { background: white; padding: 20px; border-radius: 10px; width: 350px; text-align: center; }
+    #popup-content button { margin-top: 10px; padding: 8px 15px; }
+    /* Page navigation */
+    .page-nav { margin-top: 20px; }
+    .page-nav button { margin: 5px; padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer; background: #007bff; color: #fff; }
+    .page-nav button:hover { background: #0056b3; }
+    /* Selection buttons */
+    .selection { margin-top: 15px; }
+    .selection button { margin: 5px; padding: 6px 12px; border: none; border-radius: 5px; background: #17a2b8; color: #fff; cursor: pointer; }
+    .selection button:hover { background: #117a8b; }
+    .selection-result, .checkbox-result { margin-top: 10px; font-style: italic; color: #333; }
+    /* Checkbox group */
+    .checkbox-group { margin-top: 15px; text-align: left; }
+    .checkbox-group label { display: block; margin: 5px 0; }
+  </style>
+</head>
+<body>
+
+  <!-- Login Page -->
+  <div id="login-page">
+    <div id="login-box">
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Username">
+      <input type="password" id="password" placeholder="Password">
+      <button onclick="login()">Login</button>
+      <p id="error-msg" style="color: red; display: none;">Invalid credentials</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div id="main-content" class="hidden">
+    <header>
+      <h1>Welcome to the Static Website</h1>
+    </header>
+    <nav>
+      <button onclick="showPage('home')">Home</button>
+      <button onclick="showPage('about')">About</button>
+      <button onclick="showPage('services')">Services</button>
+      <button onclick="showPage('contact')">Contact</button>
+      <button onclick="showPage('faq')">FAQ</button>
+      <button onclick="showPage('settings')">Settings</button>
+    </nav>
+    <div class="container">
+
+      <!-- Pages -->
+      <div id="home" class="page"> 
+        <h2>Home</h2>
+        <p>This is the dashboard home page with welcome text and overview.</p>
+        <div class="selection">
+          <button onclick="showSelection('home','Welcome Option Selected!')">Select Option</button>
+          <div id="result-home" class="selection-result"></div>
+        </div>
+        <div class="checkbox-group">
+          <label><input type="checkbox" value="Home Feature 1"> Home Feature 1</label>
+          <label><input type="checkbox" value="Home Feature 2"> Home Feature 2</label>
+          <label><input type="checkbox" value="Home Feature 3"> Home Feature 3</label>
+          <label><input type="checkbox" value="Home Feature 4"> Home Feature 4</label>
+          <button onclick="submitCheckboxes('home')">Submit</button>
+          <div id="checkbox-home" class="checkbox-result"></div>
+        </div>
+        <div class="page-nav">
+          <button onclick="showPage('about')">Next →</button>
+        </div>
+        <button onclick="openPopup()">Show Info</button>
+      </div>
+
+      <div id="about" class="page hidden"> 
+        <h2>About</h2>
+        <p>This website demonstrates a static login system with multiple text-based pages.</p>
+        <div class="selection">
+          <button onclick="showSelection('about','About Option Selected!')">Select Option</button>
+          <div id="result-about" class="selection-result"></div>
+        </div>
+        <div class="checkbox-group">
+          <label><input type="checkbox" value="Mission"> Mission</label>
+          <label><input type="checkbox" value="Vision"> Vision</label>
+          <label><input type="checkbox" value="Goals"> Goals</label>
+          <label><input type="checkbox" value="Values"> Values</label>
+          <button onclick="submitCheckboxes('about')">Submit</button>
+          <div id="checkbox-about" class="checkbox-result"></div>
+        </div>
+        <div class="page-nav">
+          <button onclick="showPage('home')">← Previous</button>
+          <button onclick="showPage('services')">Next →</button>
+        </div>
+        <button onclick="openPopup()">Show Info</button>
+      </div>
+
+      <div id="services" class="page hidden"> 
+        <h2>Services</h2>
+        <p>We provide demonstration of static navigation, overlays, and simple JavaScript features.</p>
+        <div class="selection">
+          <button onclick="showSelection('services','Services Option Selected!')">Select Option</button>
+          <div id="result-services" class="selection-result"></div>
+        </div>
+        <div class="checkbox-group">
+          <label><input type="checkbox" value="Web Development"> Web Development</label>
+          <label><input type="checkbox" value="Design"> Design</label>
+          <label><input type="checkbox" value="Consulting"> Consulting</label>
+          <label><input type="checkbox" value="Training"> Training</label>
+          <button onclick="submitCheckboxes('services')">Submit</button>
+          <div id="checkbox-services" class="checkbox-result"></div>
+        </div>
+        <div class="page-nav">
+          <button onclick="showPage('about')">← Previous</button>
+          <button onclick="showPage('contact')">Next →</button>
+        </div>
+        <button onclick="openPopup()">Show Info</button>
+      </div>
+
+      <div id="contact" class="page hidden"> 
+        <h2>Contact</h2>
+        <p>You can reach us through this static text contact page. No backend integration required.</p>
+        <div class="selection">
+          <button onclick="showSelection('contact','Contact Option Selected!')">Select Option</button>
+          <div id="result-contact" class="selection-result"></div>
+        </div>
+        <div class="checkbox-group">
+          <label><input type="checkbox" value="Email"> Email</label>
+          <label><input type="checkbox" value="Phone"> Phone</label>
+          <label><input type="checkbox" value="Address"> Address</label>
+          <label><input type="checkbox" value="Support"> Support</label>
+          <button onclick="submitCheckboxes('contact')">Submit</button>
+          <div id="checkbox-contact" class="checkbox-result"></div>
+        </div>
+        <div class="page-nav">
+          <button onclick="showPage('services')">← Previous</button>
+          <button onclick="showPage('faq')">Next →</button>
+        </div>
+        <button onclick="openPopup()">Show Info</button>
+      </div>
+
+      <div id="faq" class="page hidden"> 
+        <h2>FAQ</h2>
+        <p>Frequently Asked Questions are displayed here with pure text.</p>
+        <div class="selection">
+          <button onclick="showSelection('faq','FAQ Option Selected!')">Select Option</button>
+          <div id="result-faq" class="selection-result"></div>
+        </div>
+        <div class="checkbox-group">
+          <label><input type="checkbox" value="Question 1"> Question 1</label>
+          <label><input type="checkbox" value="Question 2"> Question 2</label>
+          <label><input type="checkbox" value="Question 3"> Question 3</label>
+          <label><input type="checkbox" value="Question 4"> Question 4</label>
+          <button onclick="submitCheckboxes('faq')">Submit</button>
+          <div id="checkbox-faq" class="checkbox-result"></div>
+        </div>
+        <div class="page-nav">
+          <button onclick="showPage('contact')">← Previous</button>
+          <button onclick="showPage('settings')">Next →</button>
+        </div>
+        <button onclick="openPopup()">Show Info</button>
+      </div>
+
+      <div id="settings" class="page hidden"> 
+        <h2>Settings</h2>
+        <p>This is the settings page with popup and checkbox features.</p>
+        <div class="selection">
+          <button onclick="showSelection('settings','Settings Option Selected!')">Select Option</button>
+          <div id="result-settings" class="selection-result"></div>
+        </div>
+        <div class="checkbox-group">
+          <label><input type="checkbox" value="Theme"> Theme</label>
+          <label><input type="checkbox" value="Privacy"> Privacy</label>
+          <label><input type="checkbox" value="Notifications"> Notifications</label>
+          <label><input type="checkbox" value="Updates"> Updates</label>
+          <button onclick="submitCheckboxes('settings')">Submit</button>
+          <div id="checkbox-settings" class="checkbox-result"></div>
+        </div>
+        <div class="page-nav">
+          <button onclick="showPage('faq')">← Previous</button>
+        </div>
+        <button onclick="openPopup()">Show Info</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Popup Modal -->
+  <div id="popup">
+    <div id="popup-content">
+      <h3>Popup Title</h3>
+      <p>Select some popup options below:</p>
+      <div class="checkbox-group">
+        <label><input type="checkbox" value="Popup Option 1"> Popup Option 1</label>
+        <label><input type="checkbox" value="Popup Option 2"> Popup Option 2</label>
+        <label><input type="checkbox" value="Popup Option 3"> Popup Option 3</label>
+        <label><input type="checkbox" value="Popup Option 4"> Popup Option 4</label>
+        <button onclick="submitPopupCheckboxes()">Submit</button>
+        <div id="checkbox-popup" class="checkbox-result"></div>
+      </div>
+      <button onclick="closePopup()">Close</button>
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      const user = document.getElementById('username').value;
+      const pass = document.getElementById('password').value;
+      if(user === 'admin' && pass === 'password123') {
+        document.getElementById('login-page').style.display = 'none';
+        document.getElementById('main-content').classList.remove('hidden');
+      } else {
+        document.getElementById('error-msg').style.display = 'block';
+      }
+    }
+
+    function showPage(pageId) {
+      document.querySelectorAll('.page').forEach(p => {
+        p.classList.add('hidden');
+        // reset results on page switch
+        p.querySelectorAll('.selection-result, .checkbox-result').forEach(r => r.textContent = "");
+        p.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+      });
+      document.getElementById(pageId).classList.remove('hidden');
+    }
+
+    function openPopup() {
+      document.querySelectorAll('#popup input[type=checkbox]').forEach(cb => cb.checked = false);
+      document.getElementById('checkbox-popup').textContent = "";
+      document.getElementById('popup').style.display = 'flex';
+    }
+
+    function closePopup() {
+      document.getElementById('popup').style.display = 'none';
+    }
+
+    function showSelection(page, text) {
+      document.getElementById('result-' + page).textContent = text;
+    }
+
+    function submitCheckboxes(page) {
+      const checkboxes = document.querySelectorAll(`#${page} input[type=checkbox]:checked`);
+      let values = Array.from(checkboxes).map(cb => cb.value);
+      document.getElementById('checkbox-' + page).textContent = values.length ? "Selected: " + values.join(', ') : "No options selected.";
+    }
+
+    function submitPopupCheckboxes() {
+      const checkboxes = document.querySelectorAll('#popup input[type=checkbox]:checked');
+      let values = Array.from(checkboxes).map(cb => cb.value);
+      document.getElementById('checkbox-popup').textContent = values.length ? "Popup Selected: " + values.join(', ') : "No popup options selected.";
+    }
+  </script>
+
+</body>
+</html>
